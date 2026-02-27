@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Login - CMS NEC</title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+   <style>
+      @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap');
+
+      * {
+         margin: 0;
+         padding: 0;
+         box-sizing: border-box;
+      }
+
+      body {
+         font-family: 'Nunito', Arial, sans-serif;
+         background: linear-gradient(135deg, #E8F0FE 0%, #F5F8FF 100%);
+         color: #1a1a2e;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         min-height: 100vh;
+         padding: 20px;
+      }
+
+      .login-container {
+         background: #ffffff;
+         border: 1px solid #e0e7f1;
+         border-radius: 12px;
+         padding: 50px;
+         width: 100%;
+         max-width: 500px;
+         box-shadow: 0 8px 32px rgba(74, 124, 243, 0.12);
+      }
+
+      .login-container h1 {
+         font-size: 2.4em;
+         margin-bottom: 8px;
+         text-align: center;
+         color: #1a1a2e;
+      }
+
+      .login-container h2 {
+         font-size: 1.1em;
+         margin-bottom: 30px;
+         text-align: center;
+         color: #4A7CF3;
+         font-weight: 600;
+      }
+
+      .form-group {
+         margin-bottom: 20px;
+      }
+
+      .form-group label {
+         display: block;
+         margin-bottom: 8px;
+         font-weight: 500;
+         font-size: 1.1em;
+         color: #333;
+      }
+
+      .form-group input {
+         width: 100%;
+         padding: 12px;
+         border: 1px solid #d0d9e8;
+         border-radius: 6px;
+         background: #f5f8ff;
+         color: #1a1a2e;
+         font-size: 1.1em;
+         transition: border-color 0.3s;
+      }
+
+      .form-group input::placeholder {
+         color: #999;
+      }
+
+      .form-group input:focus {
+         outline: none;
+         border-color: #4A7CF3;
+         background: #eef3ff;
+      }
+
+      .btn {
+         width: 100%;
+         padding: 14px;
+         border: none;
+         border-radius: 6px;
+         font-weight: 600;
+         cursor: pointer;
+         transition: all 0.3s ease;
+         font-size: 1.15em;
+         margin-bottom: 12px;
+      }
+
+      .btn-primary {
+         background: linear-gradient(135deg, #4A7CF3 0%, #3B6DE0 100%);
+         color: white;
+      }
+
+      .btn-primary:hover {
+         transform: translateY(-2px);
+         box-shadow: 0 6px 20px rgba(74, 124, 243, 0.4);
+      }
+
+      .error {
+         color: #ff6b6b;
+         text-align: center;
+         margin-bottom: 20px;
+         padding: 12px;
+         background: rgba(255, 107, 107, 0.1);
+         border-radius: 6px;
+      }
+
+      .forgot-link {
+         text-align: center;
+         margin-top: 16px;
+      }
+
+      .forgot-link a {
+         color: #4A7CF3;
+         text-decoration: none;
+         font-weight: 500;
+         transition: color 0.3s;
+      }
+
+      .forgot-link a:hover {
+         color: #3B6DE0;
+      }
+
+      @media (max-width: 768px) {
+         .login-container {
+            padding: 30px 20px;
+         }
+      }
+   </style>
+</head>
+
+<body>
+   <div class="login-container">
+      <h1>Kalvi Koodam.ai</h1>
+      <h2>Your Journey to Smarter Classrooms Begins Here!</h2>
+
+      {% if error %}
+      <p class="error">{{ error }}</p>
+      {% endif %}
+
+      <form method="POST" action="{{ url_for('login') }}">
+         <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your email" required>
+         </div>
+         <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+         </div>
+         <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+
+      <div class="forgot-link">
+         <p>Forgot password? <a href="/forgot-password">Click here</a></p>
+      </div>
+   </div>
+</body>
+
+</html>

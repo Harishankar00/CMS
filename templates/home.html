@@ -1,0 +1,146 @@
+{% extends "dashboard.html" %}
+
+{% block title %}Home — KalviKoodam.ai{% endblock %}
+
+{% block content %}
+<!-- Dedicated home stylesheet -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+
+<div class="home-page">
+
+    <!-- ─── Welcome Banner ─── -->
+    <div class="welcome-banner">
+        <h1>Welcome to KalviKoodam</h1>
+        <p>Real-time classroom engagement monitoring &amp; analytics dashboard</p>
+        <div class="welcome-meta">
+            <span class="meta-badge"><i class="fas fa-map-marker-alt"></i> {{ institution.location }}</span>
+            <span class="meta-badge"><i class="fas fa-phone-alt"></i> {{ institution.contact }}</span>
+        </div>
+    </div>
+
+    <!-- ─── Quick Stats ─── -->
+    <div class="stats-row">
+        <div class="stat-card sessions">
+            <div class="stat-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+            <div class="stat-content">
+                <div class="stat-number">{{ total_sessions }}</div>
+                <div class="stat-label">Sessions Conducted</div>
+            </div>
+        </div>
+        <div class="stat-card engagement">
+            <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+            <div class="stat-content">
+                <div class="stat-number">{{ engagement_score }}%</div>
+                <div class="stat-label">Avg Engagement Score</div>
+            </div>
+        </div>
+        <div class="stat-card trainers-count">
+            <div class="stat-icon"><i class="fas fa-user-tie"></i></div>
+            <div class="stat-content">
+                <div class="stat-number">{{ trainers|length }}</div>
+                <div class="stat-label">Active Trainers</div>
+            </div>
+        </div>
+        <div class="stat-card contact">
+            <div class="stat-icon"><i class="fas fa-school"></i></div>
+            <div class="stat-content">
+                <div class="stat-number">{{ institution.location }}</div>
+                <div class="stat-label">Location</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── Main Grid ─── -->
+    <div class="home-grid">
+
+        <!-- Engagement Score Ring -->
+        <div class="section-card engagement-card">
+            <div class="section-header">
+                <h2><i class="fas fa-bullseye"></i> Engagement Score</h2>
+            </div>
+
+            <div class="score-ring-wrapper">
+                <svg viewBox="0 0 120 120">
+                    <circle class="score-ring-bg" cx="60" cy="60" r="52" />
+                    <circle class="score-ring-fg" id="scoreRing" cx="60" cy="60" r="52" stroke-dasharray="326.73"
+                        stroke-dashoffset="326.73" />
+                </svg>
+                <div class="score-ring-label">
+                    <span class="score-value" id="scoreValue">0</span><span class="score-unit">%</span>
+                    <div class="score-subtitle">Class Average</div>
+                </div>
+            </div>
+
+            <div class="score-legend">
+                <div class="legend-row"><span class="legend-dot excellent"></span> 90 – 100 %&nbsp; Excellent</div>
+                <div class="legend-row"><span class="legend-dot good"></span> 60 – 89 %&nbsp; Good</div>
+                <div class="legend-row"><span class="legend-dot average"></span> 30 – 59 %&nbsp; Average</div>
+                <div class="legend-row"><span class="legend-dot low"></span> &lt; 30 %&nbsp; Needs Attention</div>
+            </div>
+        </div>
+
+        <!-- Trainers List -->
+        <div class="section-card">
+            <div class="section-header">
+                <h2><i class="fas fa-users-cog"></i> Trainers</h2>
+                <a href="{{ url_for('add_trainer') }}" class="meta-badge"
+                    style="text-decoration:none;color:var(--home-blue-600);background:var(--home-blue-100);font-size:0.78rem;font-weight:600;">
+                    <i class="fas fa-plus"></i> Add Trainer
+                </a>
+            </div>
+
+            {% if trainers %}
+            <div class="trainers-list">
+                {% for trainer in trainers %}
+                <div class="trainer-item">
+                    <div class="trainer-avatar">{{ trainer.name[0] }}</div>
+                    <div class="trainer-details">
+                        <p class="trainer-name">{{ trainer.name }}</p>
+                        <p class="trainer-email">{{ trainer.email }}</p>
+                        <span class="meta-badge" style="font-size:0.72rem;">ID: {{ trainer.trainer_id }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="fas fa-user-plus"></i>
+                <p>No trainers added yet. Add your first trainer to get started.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Engagement Ring Animation -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const score = parseFloat('{{ engagement_score }}') || 0;
+        const ring = document.getElementById('scoreRing');
+        const label = document.getElementById('scoreValue');
+
+        const radius = 52;
+        const circumference = 2 * Math.PI * radius;   // ≈ 326.73
+
+        ring.style.strokeDasharray = circumference;
+        ring.style.strokeDashoffset = circumference;
+
+        // pick colour based on score
+        let colour;
+        if (score >= 90) colour = '#10b981';
+        else if (score >= 60) colour = '#3b82f6';
+        else if (score >= 30) colour = '#f59e0b';
+        else colour = '#ef4444';
+
+        ring.style.stroke = colour;
+
+        // animate after a small delay
+        requestAnimationFrame(() => {
+            const offset = circumference - (score / 100) * circumference;
+            ring.style.strokeDashoffset = offset;
+            label.textContent = Math.round(score);
+            label.style.color = colour;
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "dashboard.html" %}
+
+{% block title %}Attendance Report{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/attendance.css') }}" />
+
+<div class="report-page">
+    <div class="report-header">
+        <a href="/attendance"><i class="fas fa-arrow-left"></i> Back</a>
+        <h1>Attendance Report</h1>
+    </div>
+
+    <form action="/attendance-report" method="get" class="report-form">
+        <select id="session_dropdown" name="session_id" required>
+            <option value="" disabled selected>Select a session</option>
+            {% for session in sessions %}
+            <option value="{{ session.id }}" {% if selected_session and selected_session.id==session.id %}selected{%
+                endif %}>
+                {{ session.name }} - {{ session.date.strftime('%Y-%m-%d') if session.date is not none else '' }}
+            </option>
+            {% endfor %}
+        </select>
+        <button type="submit">View Attendance</button>
+    </form>
+
+    {% if selected_session %}
+    <h2 style="font-size:1.15rem; color:#1e293b; margin-bottom:16px;">
+        Session: {{ selected_session.name }} ({{ selected_session.date.strftime('%Y-%m-%d') if selected_session.date
+        else '' }})
+    </h2>
+    <table class="report-table">
+        <thead>
+            <tr>
+                <th>Roll No</th>
+                <th>Student Name</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in attendance_records %}
+            <tr>
+                <td>{{ record.roll_no }}</td>
+                <td>{{ record.student_name }}</td>
+                <td>
+                    <span class="report-status {{ record.status }}">
+                        {% if record.status == 'present' %}
+                        <i class="fas fa-check-circle"></i> Present
+                        {% elif record.status == 'absent' %}
+                        <i class="fas fa-times-circle"></i> Absent
+                        {% elif record.status == 'late' %}
+                        <i class="fas fa-clock"></i> Late
+                        {% endif %}
+                    </span>
+                </td>
+            </tr>
+            {% endfor %}
+            {% if not attendance_records %}
+            <tr>
+                <td colspan="3" style="text-align:center; color:#94a3b8; padding:32px;">No attendance records for this
+                    session.</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+{% endblock %}

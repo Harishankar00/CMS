@@ -1,0 +1,7 @@
+/venv
+/output
+/uploads
+.env
+database.sqlite
+database/__pycache__
+models/__pycache__

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Dashboard{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+    {% block extra_css %}{% endblock %}
+    <style>
+        :root {
+            --primary-color: #2196f3;
+            --secondary-color: #1976d2;
+            --sidebar-bg: #ffffff;
+            --topbar-bg: #ffffff;
+            --text-primary: #2c3e50;
+            --text-secondary: #7f8c8d;
+            --hover-color: #e3f2fd;
+            --border-color: #e0e0e0;
+            --transition: all 0.3s ease;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f5f7fa;
+            overflow-x: hidden;
+        }
+
+        /* Topbar Styles */
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 70px;
+            background: var(--topbar-bg);
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .dashboard-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-left: 1rem;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .toggle-btn:hover {
+            background: var(--hover-color);
+        }
+
+        .user-info {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .user-info a {
+            color: var(--primary-color);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: var(--transition);
+        }
+
+        .user-info a:hover {
+            background: var(--hover-color);
+        }
+
+        /* Sidebar Styles — 3D Blue Glassmorphism */
+        .sidebar {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            height: calc(100vh - 70px);
+            width: 250px;
+            background: linear-gradient(180deg, #e8f0fe 0%, #dce6f8 50%, #d0dcf0 100%);
+            box-shadow: 4px 0 20px rgba(30, 64, 175, 0.08), 1px 0 4px rgba(30, 64, 175, 0.05);
+            transition: var(--transition);
+            overflow-y: auto;
+            z-index: 900;
+            border-right: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .sidebar nav {
+            padding: 1rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            padding: 0.85rem 1.3rem;
+            color: #334155;
+            text-decoration: none;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: 0.15rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.92rem;
+            font-weight: 500;
+            position: relative;
+            background: transparent;
+            border: 1px solid transparent;
+        }
+
+        .sidebar a:hover {
+            background: rgba(255, 255, 255, 0.7);
+            color: #1d4ed8;
+            border-color: rgba(59, 130, 246, 0.15);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1),
+                0 4px 16px rgba(59, 130, 246, 0.06);
+            transform: translateX(3px);
+        }
+
+        .sidebar a.active {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35),
+                0 2px 6px rgba(37, 99, 235, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            transform: translateX(3px);
+        }
+
+        .sidebar a.active:hover {
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4),
+                0 3px 8px rgba(37, 99, 235, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .sidebar a i {
+            margin-right: 0.85rem;
+            font-size: 1.15rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Content Area */
+        .content {
+            margin-left: 250px;
+            margin-top: 70px;
+            padding: 2rem;
+            min-height: calc(100vh - 70px);
+            transition: var(--transition);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 250px;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .content {
+                margin-left: 0;
+            }
+
+            .topbar {
+                padding: 0 1rem;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-secondary);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top bar -->
+    <div class="topbar">
+        <button class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <span class="dashboard-title">KalviKoodam.ai</span>
+        <div class="user-info">
+            <i class="fas fa-user-tie"></i>
+            <span>Teacher</span>
+            <a href="{{ url_for('logout') }}">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <nav>
+            <a href="{{ url_for('main') }}" class="{{ 'active' if request.endpoint == 'main' }}">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="{{ url_for('schedule_session') }}"
+                class="{{ 'active' if request.endpoint == 'schedule_session' }}">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Schedule Session</span>
+            </a>
+            <a href="{{ url_for('session_report') }}" class="{{ 'active' if request.endpoint == 'session_report' }}">
+                <i class="fas fa-chart-bar"></i>
+                <span>Session Reports</span>
+            </a>
+            <a href="{{ url_for('add_trainer') }}" class="{{ 'active' if request.endpoint == 'add_trainer' }}">
+                <i class="fas fa-user-plus"></i>
+                <span>Add Trainer</span>
+            </a>
+            <a href="{{ url_for('manage_students') }}" class="{{ 'active' if request.endpoint == 'manage_students' }}">
+                <i class="fas fa-users"></i>
+                <span>Manage Students</span>
+            </a>
+            <a href="{{ url_for('attendance') }}" class="{{ 'active' if request.endpoint == 'attendance' }}">
+                <i class="fas fa-clipboard-check"></i>
+                <span>Attendance</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main content -->
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Function to toggle the sidebar visibility
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const content = document.querySelector(".content");
+
+            if (window.innerWidth <= 768) {
+                sidebar.classList.toggle('active');
+            } else {
+                if (sidebar.style.width === "0px") {
+                    sidebar.style.width = "250px";
+                    content.style.marginLeft = "250px";
+                } else {
+                    sidebar.style.width = "0px";
+                    content.style.marginLeft = "0px";
+                }
+            }
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            const sidebar = document.getElementById("sidebar");
+            const content = document.querySelector(".content");
+
+            if (window.innerWidth > 768) {
+                sidebar.style.width = "250px";
+                content.style.marginLeft = "250px";
+                sidebar.style.transform = "none";
+            } else {
+                sidebar.style.width = "250px";
+                content.style.marginLeft = "0px";
+                sidebar.style.transform = "translateX(-100%)";
+            }
+        });
+    </script>
+</body>
+
+</html>

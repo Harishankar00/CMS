@@ -1,0 +1,504 @@
+/* ==============================================
+   SHARED PAGE STYLES — Blue Glassmorphism Theme
+   Matches home.css design tokens & aesthetics
+   ============================================== */
+
+/* ---------- Google Font (same as home) ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ---------- Page Container ---------- */
+.page-container {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    padding: 1.75rem 2rem;
+    min-height: calc(100vh - 70px);
+    position: relative;
+    background:
+        radial-gradient(ellipse at 85% 15%, rgba(59, 130, 246, 0.08) 0%, transparent 55%),
+        radial-gradient(ellipse at 10% 90%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
+        linear-gradient(165deg, #eef4fb 0%, #f0f4f8 40%, #f5f7fa 100%);
+    background-color: #f0f4f8;
+}
+
+/* Education SVG dot pattern overlay */
+.page-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.035;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%231e40af'%3E%3Crect x='8' y='10' width='14' height='18' rx='1.5' /%3E%3Cline x1='15' y1='10' x2='15' y2='28' stroke='%23f0f4f8' stroke-width='1'/%3E%3Cpolygon points='50,12 40,18 50,24 60,18' /%3E%3Crect x='48.5' y='18' width='3' height='8' rx='0.5' /%3E%3Ccircle cx='18' cy='58' r='3' /%3E%3Cellipse cx='18' cy='58' rx='9' ry='4' fill='none' stroke='%231e40af' stroke-width='1' transform='rotate(30 18 58)' /%3E%3Cellipse cx='18' cy='58' rx='9' ry='4' fill='none' stroke='%231e40af' stroke-width='1' transform='rotate(-30 18 58)' /%3E%3Crect x='56' y='48' width='4' height='18' rx='0.5' transform='rotate(-20 58 57)' /%3E%3Cpolygon points='54,66 58,70 62,66' transform='rotate(-20 58 68)' /%3E%3C/g%3E%3C/svg%3E");
+    background-size: 120px 120px;
+}
+
+/* ---------- Floating Decorative Icons ---------- */
+.floating-icons {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.floating-icons i {
+    position: absolute;
+    color: rgba(59, 130, 246, 0.07);
+    font-size: 2.2rem;
+    animation: floatIcon 6s ease-in-out infinite;
+}
+
+.floating-icons i:nth-child(1) { top: 12%; left: 5%; animation-delay: 0s; font-size: 2.5rem; }
+.floating-icons i:nth-child(2) { top: 25%; right: 8%; animation-delay: 1.2s; font-size: 1.8rem; }
+.floating-icons i:nth-child(3) { bottom: 20%; left: 10%; animation-delay: 2.4s; font-size: 2rem; }
+.floating-icons i:nth-child(4) { bottom: 35%; right: 12%; animation-delay: 0.8s; font-size: 2.8rem; }
+.floating-icons i:nth-child(5) { top: 50%; left: 50%; animation-delay: 1.8s; font-size: 1.6rem; }
+.floating-icons i:nth-child(6) { top: 8%; left: 45%; animation-delay: 3s; font-size: 2rem; }
+.floating-icons i:nth-child(7) { bottom: 10%; right: 30%; animation-delay: 3.6s; font-size: 2.4rem; }
+
+@keyframes floatIcon {
+    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+    50%      { transform: translateY(-18px) rotate(8deg); opacity: 1; }
+}
+
+/* ---------- Page Banner ---------- */
+.page-banner {
+    background: linear-gradient(135deg, #2563eb 0%, #60a5fa 100%);
+    border-radius: 16px;
+    padding: 2rem 2.5rem;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1.75rem;
+    z-index: 1;
+}
+
+.page-banner::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -8%;
+    width: 320px;
+    height: 320px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.page-banner::after {
+    content: '';
+    position: absolute;
+    bottom: -50%;
+    right: 12%;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.page-banner h1 {
+    font-size: 1.65rem;
+    font-weight: 700;
+    margin: 0 0 0.35rem;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.page-banner h1 i {
+    font-size: 1.4rem;
+    opacity: 0.9;
+}
+
+.page-banner p {
+    font-size: 0.95rem;
+    opacity: 0.85;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* ---------- Glassmorphism Card ---------- */
+.glass-card {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 16px;
+    box-shadow:
+        0 4px 24px rgba(30, 58, 95, 0.07),
+        0 1.5px 6px rgba(30, 58, 95, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 8px 32px rgba(30, 58, 95, 0.10),
+        0 3px 12px rgba(30, 58, 95, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.glass-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+}
+
+.glass-card-header h2 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.glass-card-header h2 i {
+    color: #3b82f6;
+    font-size: 1rem;
+}
+
+/* ---------- Styled Form ---------- */
+.styled-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.form-group label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #334155;
+    letter-spacing: 0.01em;
+}
+
+.form-group input,
+.form-group select {
+    padding: 0.75rem 1rem;
+    border: 1.5px solid #dbeafe;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(6px);
+    transition: all 0.25s ease;
+    color: #1e293b;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    background: #fff;
+}
+
+.form-group input::placeholder {
+    color: #94a3b8;
+}
+
+/* Submit Button */
+.btn-submit {
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+    color: #fff;
+    border: none;
+    padding: 0.85rem 2rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+}
+
+.btn-submit:active {
+    transform: translateY(0);
+}
+
+/* ---------- Glass Table ---------- */
+.glass-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    border-radius: 12px;
+    font-size: 0.9rem;
+}
+
+.glass-table thead th {
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+    color: #fff;
+    padding: 0.85rem 1rem;
+    font-weight: 600;
+    text-align: left;
+    letter-spacing: 0.02em;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    border: none;
+}
+
+.glass-table thead th:first-child {
+    border-radius: 12px 0 0 0;
+}
+
+.glass-table thead th:last-child {
+    border-radius: 0 12px 0 0;
+}
+
+.glass-table tbody td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.08);
+    color: #334155;
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.glass-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.glass-table tbody tr:nth-child(even) td {
+    background: rgba(239, 246, 255, 0.5);
+}
+
+.glass-table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.glass-table tbody tr:hover td {
+    background: rgba(219, 234, 254, 0.6);
+}
+
+/* ---------- Glass Stat Cards (Attendance Dashboard) ---------- */
+.glass-stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 1.75rem;
+    position: relative;
+    z-index: 1;
+}
+
+.glass-stat-card {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 16px;
+    box-shadow:
+        0 4px 24px rgba(30, 58, 95, 0.07),
+        0 1.5px 6px rgba(30, 58, 95, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.15rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 8px 32px rgba(30, 58, 95, 0.10),
+        0 3px 12px rgba(30, 58, 95, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.glass-stat-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    border-radius: 0 0 16px 16px;
+}
+
+.glass-stat-card .stat-icon {
+    width: 54px;
+    height: 54px;
+    min-width: 54px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+
+.glass-stat-card .stat-content h3 {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #64748b;
+    margin: 0 0 0.25rem;
+    text-align: left;
+}
+
+.glass-stat-card .stat-content p {
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+    line-height: 1.2;
+    text-align: left;
+}
+
+/* stat color variants */
+.glass-stat-card.students .stat-icon  { background: #dbeafe; color: #2563eb; }
+.glass-stat-card.students::after      { background: #3b82f6; }
+
+.glass-stat-card.sessions .stat-icon  { background: #ecfdf5; color: #059669; }
+.glass-stat-card.sessions::after      { background: #10b981; }
+
+.glass-stat-card.attendance .stat-icon { background: #fef3c7; color: #d97706; }
+.glass-stat-card.attendance::after     { background: #f59e0b; }
+
+/* ---------- Action Buttons Row ---------- */
+.action-btns {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+}
+
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.75rem;
+    border-radius: 12px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    border: none;
+}
+
+.btn-action.primary {
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+}
+
+.btn-action.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+}
+
+.btn-action.secondary {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    color: #2563eb;
+    border: 1.5px solid #bfdbfe;
+    box-shadow: 0 2px 8px rgba(30, 58, 95, 0.06);
+}
+
+.btn-action.secondary:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.85);
+    border-color: #93c5fd;
+    box-shadow: 0 4px 16px rgba(30, 58, 95, 0.10);
+}
+
+/* ---------- Content spacer between cards ---------- */
+.page-container .glass-card + .glass-card {
+    margin-top: 1.5rem;
+}
+
+/* ---------- Empty state ---------- */
+.empty-row {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.empty-row i {
+    font-size: 2rem;
+    color: #bfdbfe;
+    display: block;
+    margin-bottom: 0.6rem;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 960px) {
+    .glass-stats-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .page-container {
+        padding: 1.25rem;
+    }
+
+    .page-banner {
+        padding: 1.5rem;
+    }
+
+    .page-banner h1 {
+        font-size: 1.35rem;
+    }
+
+    .glass-card {
+        padding: 1.5rem;
+    }
+
+    .glass-stats-row {
+        grid-template-columns: 1fr;
+    }
+
+    .action-btns {
+        flex-direction: column;
+    }
+
+    .btn-action {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-container {
+        padding: 0.75rem;
+    }
+
+    .page-banner {
+        padding: 1.25rem;
+        border-radius: 12px;
+    }
+
+    .glass-card {
+        padding: 1.25rem;
+        border-radius: 12px;
+    }
+}

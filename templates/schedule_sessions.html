@@ -1,0 +1,262 @@
+{% extends "dashboard.html" %}
+
+{% block title %}Schedule New Session{% endblock %}
+
+{% block content %}
+<div class="schedule-container">
+    <div class="schedule-card">
+        <div class="card-header">
+            <h2><i class="fas fa-calendar-plus"></i> Schedule New Session</h2>
+        </div>
+        
+        <form action="{{ url_for('schedule_session') }}" method="POST" class="schedule-form">
+            <div class="form-grid">
+                <!-- Session Name -->
+                <div class="form-group">
+                    <label for="name">
+                        <i class="fas fa-chalkboard"></i> Session Name
+                    </label>
+                    <input type="text" 
+                           id="name" 
+                           name="name" 
+                           placeholder="Enter session name"
+                           required>
+                </div>
+
+                <!-- Trainer Selection -->
+                <div class="form-group">
+                    <label for="trainer_id">
+                        <i class="fas fa-user-tie"></i> Select Trainer
+                    </label>
+                    <div class="select-wrapper">
+                        <select id="trainer_id" name="trainer_id" required>
+                            <option value="" disabled selected>Choose a trainer</option>
+                            {% for trainer in trainers %}
+                                <option value="{{ trainer.id }}">{{ trainer.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Date Selection -->
+                <div class="form-group">
+                    <label for="date">
+                        <i class="fas fa-calendar-alt"></i> Session Date
+                    </label>
+                    <input type="date" 
+                           id="date" 
+                           name="date" 
+                           min="{{ current_date }}"
+                           required>
+                </div>
+
+                <!-- Time Selection -->
+                <div class="form-group time-group">
+                    <label for="start_time">
+                        <i class="fas fa-clock"></i> Start Time
+                    </label>
+                    <input type="time" 
+                           id="start_time" 
+                           name="start_time" 
+                           required>
+                </div>
+
+                <div class="form-group time-group">
+                    <label for="end_time">
+                        <i class="fas fa-clock"></i> End Time
+                    </label>
+                    <input type="time" 
+                           id="end_time" 
+                           name="end_time" 
+                           required>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" onclick="resetForm()">
+                    <i class="fas fa-undo"></i> Reset
+                </button>
+                <button type="submit" class="btn-primary">
+                    <i class="fas fa-calendar-check"></i> Schedule Session
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+.schedule-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.schedule-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    padding: 1.5rem;
+    color: white;
+}
+
+.card-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.schedule-form {
+    padding: 2rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    color: var(--text-primary);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-group input,
+.form-group select {
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+    outline: none;
+}
+
+.select-wrapper {
+    position: relative;
+}
+
+.select-wrapper::after {
+    content: '\f078';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    pointer-events: none;
+}
+
+.form-actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #e0e0e0;
+    color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+    background: #d0d0d0;
+    transform: translateY(-2px);
+}
+
+/* Time inputs specific styling */
+.time-group input {
+    width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .schedule-container {
+        padding: 1rem;
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+}
+</style>
+
+<script>
+// Function to reset the form
+function resetForm() {
+    document.querySelector('.schedule-form').reset();
+}
+
+// Function to validate end time is after start time
+document.querySelector('.schedule-form').addEventListener('submit', function(e) {
+    const startTime = document.getElementById('start_time').value;
+    const endTime = document.getElementById('end_time').value;
+    
+    if (startTime >= endTime) {
+        e.preventDefault();
+        alert('End time must be after start time');
+    }
+});
+
+// Set minimum date to current date
+document.getElementById('date').min = new Date().toISOString().split('T')[0];
+
+// Initialize current date from server data
+const currentDate = "{{ current_date }}";
+document.getElementById('date').value = currentDate;
+</script>
+{% endblock %}
